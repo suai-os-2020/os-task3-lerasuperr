@@ -222,5 +222,7 @@ int lab3_init()
 	CloseHandle(SemM);
 	CloseHandle(Mutex);
 
+	cout << endl;
+
     return 0;
 }
