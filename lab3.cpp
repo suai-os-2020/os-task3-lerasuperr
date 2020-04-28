@@ -29,7 +29,7 @@ DWORD WINAPI threads_unsynchronized(LPVOID text)
 {
 	for (int i = 0; i < 3; ++i)
 	{
-		OpenMutex(MUTEX_ALL_ACCESS, FALSE, "myMutex");
+		WaitForSingleObject(Mutex, INFINITE);
 		cout << (char const*)text << flush;
 		ReleaseMutex(Mutex);
 		computation();
@@ -42,7 +42,7 @@ DWORD WINAPI thread_h(LPVOID text)
 	for (int i = 0; i < 3; ++i)
 	{
 		WaitForSingleObject(SemH, INFINITE);
-		OpenMutex(MUTEX_ALL_ACCESS, FALSE, "myMutex");
+		WaitForSingleObject(Mutex, INFINITE);
 		cout << (char const*)text << flush;
 		ReleaseMutex(Mutex);
 		computation();
@@ -56,7 +56,7 @@ DWORD WINAPI thread_i(LPVOID text)
 	for (int i = 0; i < 3; ++i)
 	{
 		WaitForSingleObject(SemI, INFINITE);
-		OpenMutex(MUTEX_ALL_ACCESS, FALSE, "myMutex");
+		WaitForSingleObject(Mutex, INFINITE);
 		cout << (char const*)text << flush;
 		ReleaseMutex(Mutex);
 		computation();
@@ -70,7 +70,7 @@ DWORD WINAPI thread_m(LPVOID text)
 	for (int i = 0; i < 3; ++i)
 	{
 		WaitForSingleObject(SemM, INFINITE);
-		OpenMutex(MUTEX_ALL_ACCESS, FALSE, "myMutex");
+		WaitForSingleObject(Mutex, INFINITE);
 		cout << (char const*)text << flush;
 		ReleaseMutex(Mutex);
 		computation();
@@ -83,7 +83,7 @@ int lab3_init()
 {
 	DWORD ThreadID;
 
-	Mutex = CreateMutex(NULL, TRUE, "myMutex");
+	Mutex = CreateMutex(NULL, FALSE, NULL);
 	if (Mutex == NULL)
 	{
 		cout << "CreateMutex error " << GetLastError() << endl;
