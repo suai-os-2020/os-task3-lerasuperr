@@ -121,6 +121,7 @@ int lab3_init()
 
 	WaitForSingleObject(Thread[0], INFINITE);
 
+
 	int count = 0;
 	char const* textsBC[] = {"b", "c"}; 
 
@@ -134,20 +135,32 @@ int lab3_init()
 		}
 		else ++count;
 	}
+
 	for (int i = 0; i < count; ++i) {
 		WaitForSingleObject(Thread[i], INFINITE);
 	}
 
 	count = 0;
 
-	char const* textsCDEF[] = { "c", "d", "e", "f"};
-
-	for (int i = 0; i < 4; ++i)
+	char const* textsD = "d";
+	Thread[0] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)threads_unsynchronized, (void*)textsD, 0, &ThreadID);
+	if (Thread[0] == NULL)
 	{
-		Thread[i] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)threads_unsynchronized, (void*)textsCDEF[i], 0, &ThreadID);
+		cout << "CreateThread error: " << textsD << GetLastError() << endl;
+		return 1;
+	}
+
+	WaitForSingleObject(Thread[0], INFINITE);
+
+
+	char const* textsCEF[] = {"c", "e", "f"};
+
+	for (int i = 0; i < 3; ++i)
+	{
+		Thread[i] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)threads_unsynchronized, (void*)textsCEF[i], 0, &ThreadID);
 		if (Thread[i] == NULL)
 		{
-			cout << "CreateThread error: " << textsCDEF[i] << GetLastError() << endl;
+			cout << "CreateThread error: " << textsCEF[i] << GetLastError() << endl;
 			return 1;
 		}
 		else ++count;
